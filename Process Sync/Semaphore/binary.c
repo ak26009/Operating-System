@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 sem_t bathroom; 
-
+// it is all most like mutex exclusion
 void* person(void* name) {
     char* person_name = (char*)name;
 
