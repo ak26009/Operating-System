@@ -1,0 +1,27 @@
+sudo ethtool <network-interface>
+
+Look for "Supports Wake-on: shows the supported modes.
+          Wake-on: d means WoL is currently disabled.
+          Wake-on: g means waking via a magic packet is enabled."
+
+ip link
+sudo ethtool -s enp3s0 wol g
+sudo ethtool enp3s0
+Look for "Wake-on: g"
+
+sudo nano /etc/NetworkManager/dispatcher.d/50-wol
+
+add in that 
+#!/bin/bash
+
+if [ "$2" = "up" ]; then
+    ethtool -s enp3s0 wol g
+fi
+
+sudo chmod +x /etc/NetworkManager/dispatcher.d/50-wol
+sudo reboot 
+
+Test From Another Device
+sudo apt install wakeonlan
+wakeonlan AA:BB:CC:DD:EE:FF
+ip link
